@@ -34,7 +34,12 @@ const checkPaths = (paths) => {
     let {input, output} = paths;
 
     if (input) {
-        if (fs.statSync(input).isDirectory()) {
+        if (!fs.existsSync(input)) {
+            console.error('Input file doesn\'t exist. Please make sure you have specified the correct path and have read permission for the file.');
+            process.exit(9);
+        }
+
+        if (fs.existsSync(input) && fs.lstatSync(input).isDirectory()) {
             console.error('Please enter path to input file, not directory.');
             process.exit(9);
         }
@@ -48,7 +53,12 @@ const checkPaths = (paths) => {
     }
   
     if (output) {
-        if (fs.statSync(output).isDirectory()) {
+        if (!fs.existsSync(output)) {
+            console.error('Output file doesn\'t exist. Please make sure you have specified the correct path and have read permission for the file.');
+            process.exit(9);
+        }
+
+        if (fs.existsSync(output) && fs.lstatSync(output).isDirectory()) {
             console.error('Please enter path to output file, not directory.');
             process.exit(9);
         }
