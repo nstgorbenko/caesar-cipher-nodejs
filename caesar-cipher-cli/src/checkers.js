@@ -33,32 +33,30 @@ const checkArguments = (args) => {
 const checkPaths = (paths) => {
     let {input, output} = paths;
 
-    if (Array.isArray(input)) {
-        console.error('Please don\`t duplicate input value. Use one of options: -i or --input');
-        process.exit(9);
-    }
-
     if (input) {
-      input = path.resolve(__dirname, input);
-      fs.access(input, fs.constants.F_OK | fs.constants.R_OK, (err) => {
-        if (err) {
-            console.error('Input file doesn\'t exist. Please make sure you have specified the correct path and have read permission for the file.');
+        if (fs.statSync(input).isDirectory()) {
+            console.error('Please enter path to input file, not directory.');
             process.exit(9);
         }
-      });
-    }
 
-    if (Array.isArray(output)) {
-        console.error('Please don\`t duplicate output value. Use one of options: -o or --output');
-        process.exit(9);
+        fs.access(input, fs.constants.F_OK | fs.constants.R_OK, (err) => {
+            if (err) {
+                console.error('Input file doesn\'t exist. Please make sure you have specified the correct path and have read permission for the file.');
+                process.exit(9);
+            }
+        });
     }
   
     if (output) {
-        output = path.resolve(__dirname, output)
+        if (fs.statSync(output).isDirectory()) {
+            console.error('Please enter path to output file, not directory.');
+            process.exit(9);
+        }
+
         fs.access(output, fs.constants.F_OK | fs.constants.W_OK, (err) => {
             if (err) {
-            console.error('Output file doesn\'t exist. Please make sure you have specified the correct path and have read permission for the file.');
-            process.exit(9);
+                console.error('Output file doesn\'t exist. Please make sure you have specified the correct path and have read permission for the file.');
+                process.exit(9);
             }
         });
     }

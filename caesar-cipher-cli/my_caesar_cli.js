@@ -20,8 +20,8 @@ output = output ? path.resolve(__dirname, String(output)) : null;
 checkArguments(args);
 checkPaths({input, output});
 
-const readStream = input ? fs.createReadStream(path.resolve(__dirname, input), 'utf8') : process.stdin;
-const writeStream = output ? fs.createWriteStream(path.resolve(__dirname, output), {flags: 'a+'}) : process.stdout;
+const readStream = input ? fs.createReadStream(input, 'utf8') : process.stdin;
+const writeStream = output ? fs.createWriteStream(output, {flags: 'a+'}) : process.stdout;
 
 pipeline(
     readStream,
