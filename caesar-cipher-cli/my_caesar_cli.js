@@ -14,8 +14,8 @@ const args = minimist(process.argv.slice(2), {
 });
 let {action, shift, input, output} = args;
 
-input = input ? path.resolve(__dirname, input) : null;
-output = output ? path.resolve(__dirname, output) : null;
+input = input ? path.resolve(__dirname, String(input)) : null;
+output = output ? path.resolve(__dirname, String(output)) : null;
 
 checkArguments(args);
 checkPaths({input, output});
